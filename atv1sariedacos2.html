@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SariEdacos LikeProvaS2</title>
+</head>
+
+<body>
+    <div id=parte1>
+        <p style="color: violet;">
+        <h1>Sari Edacos LikeProva </h1>
+        </p><br><br>
+
+        <label for="input_inicioSalario">Insira o seu salário inicial: </label><br>
+        <input id="input_inicioSalario" type="number"><br>
+
+        <label for="input_finalSalario">Insira o seu salário final:</label><br>
+        <input id="input_finalSalario" type="number">
+
+        <label for="input_mes">Insira o mÊs corrente(1 a 12):</label><br>
+        <input id="input_mes" type="number"><br>
+
+    </div>
+
+    <label for="input_nome">Insira seu nome:</label><br /><br />
+    <input id="input_nome" type="text" /><br />
+
+    <label for="input_salario">Insira seu salário:</label><br /><br />
+    <input id="input_salario" type="number" /><br />
+
+    <label for="input_qtdPraia">Insira a quantidade de cadeiras de Praia:</label><br />
+    <input id="input_qtdPraia" type="number" /><br />
+
+    <label for="input_qtdJardim">Insira a quantidade de cadeiras de Jardim:</label><br />
+    <input id="input_qtdJardim" type="number" /><br />
+
+    <label for="input_qtdPesca">Insira a quantidade de cadeiras de Pesca:</label><br />
+    <input id="input_qtdPesca" type="number" /><br /><br />
+
+    <button onclick="registrar()">Registrar Parâmetros</button><br /><br />
+
+    <button onclick="Pagar()">Pagar Salário</button><br /><br />
+
+    <button onclick="encerrarDia()">Encerrar o Dia</button><br><br>
+
+    <div id="div_resultado"></div>
+
+    <div id="mensagem2"></div>
+
+    <div id="mensagem3"></div>
+
+
+</body>
+
+</html>
+<script>
+    var inicio = 0;
+    var final = 0;
+    var mes = 0;
+
+    var totalVendasPraia = 0;
+    var totalVendasJardim = 0;
+    var totalVendasPesca = 0;
+
+    var qtdTotalPraia = 0;
+    var qtdTotalJardim = 0;
+    var qtdTotalPesca = 0;
+
+    function registrar() {
+        inicio = Number(input_inicioSalario.value);
+        final = Number(input_finalSalario.value);
+        mes = Number(input_mes.value);
+        var mensagem = "";
+
+        if (inicio <= 3000) {
+            mensagem += ` O salário inicial tem que ser maior que R$ 3000.`;
+        } else if (final >= 4 * inicio) {
+            mensagem += `O salário final tem ser menor 
+            que quatro vezes o salário inicial`;
+        } else if (mes < 1 || mes > 12) {
+            mensagem += ` Insira um mês entre 1 e 12.`;
+        } else {
+            mensagem += ` Registro de salário feito com sucesso no mês ${mes}`;
+        }
+        div_resultado.innerHTML = mensagem;
+
+        parte1.innerHTML = "";
+    }
+    function Pagar() {
+        var nome = input_nome.value;
+        var salario = Number(input_salario.value);
+        var qtdPraia = Number(input_qtdPraia.value);
+        var qtdJardim = Number(input_qtdJardim.value);
+        var qtdPesca = Number(input_qtdPesca.value);
+
+        var praia = 100;
+        var jardim = 120;
+        var pesca = 80;
+        var mensagem = "";
+
+        if (nome == "" && salario < inicio) {
+            mensagem += `Insira um nome e um salário válido!`;
+        } else if (qtdPraia < 0 || qtdJardim < 0 || qtdPesca < 0) {
+            mensagem += ` A quantidades de cadeiras não podem ser negativas`;
+        } else if (mes >= 1 && mes <= 5 || mes >= 10 && mes <= 12) {
+            var desconto = 7.2;
+            var descontoJardim = jardim * (desconto / 100);
+        } else if (mes >= 4 && mes <= 10 || qtdPesca > 3) {
+            var desconto = 6.09;
+            var descontoPesca = pesca * (desconto / 100);
+        }
+
+        var totalPraia = qtdPraia * praia;
+        var totalJardim = qtdJardim * jardim;
+        var totalPesca = qtdPesca * pesca;
+        var totalCompra = totalPraia + totalJardim + totalPesca;
+
+        if (totalCompra > 400 && qtdPraia == 0 && qtdPesca >= 1) {
+            var descontoCompra = 2.5;
+            totalCompra = totalCompra - (totalCompra * descontoCompra) / 100;
+        }
+        if (totalJardim > totalPraia && totalJardim > totalPesca) {
+            var descontoCompra2 = 5.5;
+            totalCompra = totalCompra - (totalCompra * descontoCompra2) / 100;
+        }
+
+    }
+
+
+    function encerrarDia() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

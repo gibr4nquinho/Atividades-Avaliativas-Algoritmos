@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SariEdacos</title>
+</head>
+
+<body>
+    <h1>
+        <p style="color: palevioletred">Desconto no Salário dos Funcionários:</p>
+    </h1>
+    <div id="parte1">
+        <label for="input_salarioInicio">Insira o seu salário inicial:</label><br />
+        <input id="input_salarioInicio" type="number" /><br />
+
+        <label for="input_salarioFinal">Insira seu salário final:</label><br />
+        <input id="input_salarioFinal" type="number" /><br />
+
+        <label for="input_mes">Insira o mês corrente:</label><br />
+        <input id="input_mes" type="number" />
+    </div>
+    <div id="parte2">
+        <label for="input_nome">Insira seu nome:</label><br /><br />
+        <input id="input_nome" type="text" /><br />
+
+        <label for="input_salario">Insira seu salário:</label><br /><br />
+        <input id="input_salario" type="number" /><br />
+
+        <label for="input_qtdPraia">Insira a quantidade de cadeiras de Praia:</label><br />
+        <input id="input_qtdPraia" type="number" /><br />
+
+        <label for="input_qtdJardim">Insira a quantidade de cadeiras de Jardim:</label><br />
+        <input id="input_qtdJardim" type="number" /><br />
+
+        <label for="input_qtdPesca">Insira a quantidade de cadeiras de Pesca:</label><br />
+        <input id="input_qtdPesca" type="number" /><br /><br />
+    </div>
+
+    <button onclick="registrar()">Registrar Parâmetros</button><br /><br />
+    <button onclick="Pagar()">Pagar Salário</button>
+    <button onclick="encerrarDia()">Encerrar o Dia</button>
+    <div id="div_resultado"></div>
+    <div id="mensagem"></div>
+</body>
+
+</html>
+<script>
+     var inicio = 0;
+    var final = 0;
+    var mes = 0;
+    var totalVendidoPraia = 0;
+    var totalVendidoJardim = 0;
+    var totalVendidoPesca = 0;
+    var qtdTotalPraia = 0;
+    var qtdTotalJardim = 0;
+    var qtdTotalPesca = 0;
+       
+    function registrar() {
+       inicio = Number(input_salarioInicio.value);
+        final = Number(input_salarioFinal.value);
+        mes = Number(input_mes.value);
+        var mensagem = "";
+
+        if (inicio <= 3000) {
+            mensagem += ` O salário inicial tem que ser maior que R$ 3000.`;
+        } else if (final >= 4 * inicio) {
+            mensagem += `O salário final tem ser menor que quatro vezes o salário inicial`;
+        } else if (mes < 1 || mes > 12) {
+            mensagem += ` Insira um mês entre 1 e 12.`;
+        } else {
+            mensagem += ` Registro de salário feito com sucesso no mês ${mes}`;
+        }
+        div_resultado.innerHTML = mensagem;
+
+        parte1.innerHTML = "";
+    }
+    
+
+       function Pagar() {
+        var nome = input_nome.value;
+        var salario = Number(input_salario.value);
+        var qtdPraia = Number(input_qtdPraia.value);
+        var qtdJardim = Number(input_qtdJardim.value);
+        var qtdPesca = Number(input_qtdPesca.value);
+
+        var praia = 100;
+        var jardim = 120;
+        var pesca = 80;
+
+        if (nome == "" && salario < inicio) {
+            var mensagem = `Insira um nome e um salário válido!`;
+            div_resultado.innerHTML = mensagem;
+        } else if (qtdPraia < 0 || qtdJardim < 0 || qtdPesca < 0) {
+            var mensagem = `A quantidade de cadeiras não pode ser negativa!`;
+            div_resultado.innerHTML = mensagem;
+        } else {
+            var descontoPraia = 0;
+            var descontoJardim = 0;
+            var descontoPesca = 0;
+
+            var totalPraia = qtdPraia * praia;
+            var totalJardim = qtdJardim * jardim;
+            var totalPesca = qtdPesca * pesca;
+
+            if ((mes >= 1 && mes <= 5) || (mes >= 10 && mes <= 12)) {
+                descontoJardim = totalJardim * 0.072;
+            }
+
+            if ((mes >= 4 && mes <= 10) && qtdPesca > 3) {
+                descontoPesca = totalPesca * 0.0609;
+            }
+
+            var totalDescontoJardim = totalJardim - descontoJardim;
+            var totalDescontoPesca = totalPesca - descontoPesca;
+
+            var totalCompra = totalPraia + totalDescontoJardim + totalDescontoPesca;
+
+            var descontoCompra = 0;
+            var descontoCompraJardim = 0;
+
+            if (totalCompra > 400 && qtdPraia == 0 && qtdPesca >= 1) {
+                descontoCompra = totalCompra * 0.025;
+                totalCompra -= descontoCompra;
+            }
+
+            if (totalDescontoJardim === Math.max(totalDescontoJardim, totalDescontoPesca, totalPraia)) {
+                descontoCompraJardim = totalCompra * 0.055;
+                totalCompra -= descontoCompraJardim;
+            }
+
+            var limitePermitido;
+
+            if (salario >= inicio && salario <= final) {
+                limitePermitido = salario * 0.305;
+            } else if (salario > final) {
+                limitePermitido = salario * 0.2075;
+            }
+
+            if (totalCompra > limitePermitido) {
+                var mensagem = `A compra excede o limite permitido!`;
+                div_resultado.innerHTML = mensagem;
+            } else {
+                qtdTotalJardim += qtdJardim;
+                qtdTotalPesca += qtdPesca;
+                qtdTotalPraia += qtdPraia;
+
+                totalVendasPraia += totalPraia;
+                totalVendasJardim += totalDescontoJardim;
+                totalVendasPesca += totalDescontoPesca;
+
+                var salarioLiquido = salario - totalCompra;
+
+                var notas200 = Math.floor(salarioLiquido / 200);
+                var resto = salarioLiquido % 200;
+
+                var notas50 = Math.floor(resto / 50);
+                resto = resto % 50;
+
+                var notas20 = Math.floor(resto / 20);
+                resto = resto % 20;
+
+                var notas5 = Math.floor(resto / 5);
+                resto = resto % 5;
+
+                var notas1 = resto;
+
+                var mensagemCedulas = `<br>Cédulas para pagamento:<br>
+                R$ 200: ${notas200}<br>
+                R$ 50: ${notas50}<br>
+                R$ 20: ${notas20}<br>
+                R$ 5: ${notas5}<br>
+                R$ 1: ${notas1}<br>`;
+
+                var mensagem = `Esse é seu extrato como Funcionário<br>
+                Nome: ${nome}<br>
+                Salário: R$ ${salario.toFixed(2)}<br>
+                Cadeiras de Praia: ${qtdPraia} | Desconto: R$ ${descontoPraia.toFixed(2)} | Total: R$ ${totalPraia.toFixed(2)}<br>
+                Cadeiras de Jardim: ${qtdJardim} | Desconto: R$ ${descontoJardim.toFixed(2)} | Total: R$ ${totalDescontoJardim.toFixed(2)}<br>
+                Cadeiras de Pesca: ${qtdPesca} | Desconto: R$ ${descontoPesca.toFixed(2)} | Total: R$ ${totalDescontoPesca.toFixed(2)}<br>
+                Segundo desconto aplicado: R$ ${descontoCompraJardim.toFixed(2)}<br>
+                Salário líquido: R$ ${salarioLiquido.toFixed(2)}
+                ${mensagemCedulas}`;
+
+                div_resultado.innerHTML += mensagem + "<br><br>";
+            }
+        }
+    }
+
+    function encerrarDia() {
+        if (inicio == 0) {
+            var mensagem = `Você deve registrar os parâmetros primeiro!`;
+            div_resultado.innerHTML = mensagem;
+        } else {
+            var quantidadeTotal = qtdTotalJardim + qtdTotalPesca + qtdTotalPraia;
+            var valorTotal = totalVendasPraia + totalVendasJardim + totalVendasPesca;
+
+            if (valorTotal == 0 || quantidadeTotal == 0) {
+                var mensagem = `<h3>Aviso</h3>
+                Nenhuma venda realizada!`;
+                div_resultado.innerHTML = mensagem;
+            } else {
+                var percentualValorPraia = (totalVendasPraia / valorTotal) * 100;
+                var percentualValorJardim = (totalVendasJardim / valorTotal) * 100;
+                var percentualValorPesca = (totalVendasPesca / valorTotal) * 100;
+
+                var percentualQtdPraia = (qtdTotalPraia / quantidadeTotal) * 100;
+                var percentualQtdJardim = (qtdTotalJardim / quantidadeTotal) * 100;
+                var percentualQtdPesca = (qtdTotalPesca / quantidadeTotal) * 100;
+
+                var relatorio = `<h3>Resumo de Vendas do Dia</h3>
+                Praia: ${qtdTotalPraia} unidades — R$ ${totalVendasPraia.toFixed(2)} — ${percentualValorPraia.toFixed(2)}% do valor — ${percentualQtdPraia.toFixed(2)}% da quantidade<br>
+                Jardim: ${qtdTotalJardim} unidades — R$ ${totalVendasJardim.toFixed(2)} — ${percentualValorJardim.toFixed(2)}% do valor — ${percentualQtdJardim.toFixed(2)}% da quantidade<br>
+                Pesca: ${qtdTotalPesca} unidades — R$ ${totalVendasPesca.toFixed(2)} — ${percentualValorPesca.toFixed(2)}% do valor — ${percentualQtdPesca.toFixed(2)}% da quantidade`;
+
+                div_resultado.innerHTML += relatorio;
+            }
+        }
+    }
+</script>

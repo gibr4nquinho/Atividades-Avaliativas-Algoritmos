@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doceria Gourmet</title>
+</head>
+
+<body>
+    <h1 style="color: palevioletred;">Doceria Gourmet Dori</h1><br><br>
+
+    <label for="input_macarons">Quantidade de Macarons:</label><br>
+    <input id="input_macarons" type="number"><br>
+
+    <label for="input_brigadeiro">Quantidade de Brigadeiros:</label><br>
+    <input id="input_brigadeiro" type="number"><br>
+
+    <label for="input_cupcakes">Quantidade de Cupcakes:</label><br>
+    <input id="input_cupcakes" type="number"><br>
+
+    <label for="input_cheesecakes">Quantidade de Cheesecakes:</label><br>
+    <input id="input_cheesecakes" type="number"><br><br>
+
+    <label for="input_precoMacarons">Preço Macarons:</label><br>
+    <input id="input_precoMacarons" type="number"><br>
+
+    <label for="input_precoBrigadeiro">Preço Brigadeiros:</label><br>
+    <input id="input_precoBrigadeiro" type="number"><br>
+
+    <label for="input_precoCupcakes">Preço Cupcakes:</label><br>
+    <input id="input_precoCupcakes" type="number"><br>
+
+    <label for="input_precoCheesecakes">Preço Cheesecakes:</label><br>
+    <input id="input_precoCheesecakes" type="number"><br><br>
+
+    <button onclick="verificar()">Verificar Vendas</button>
+    <div id="div_resultado"></div>
+</body>
+
+</html>
+<script>
+    function verificar() {
+        var macarons = Number(input_macarons.value);
+        var brigadeiro = Number(input_brigadeiro.value);
+        var cupcakes = Number(input_cupcakes.value);
+        var cheesecakes = Number(input_cheesecakes.value);
+
+        var precoMacarons = Number(input_precoMacarons.value);
+        var precoBrigadeiro = Number(input_precoBrigadeiro.value);
+        var precoCupcakes = Number(input_precoCupcakes.value);
+        var precoCheesecakes = Number(input_precoCheesecakes.value);
+
+        var mensagem = "";
+        var total = 0;
+
+        if (macarons < 0 || brigadeiro < 0 || cupcakes < 0 || cheesecakes < 0 ||
+            precoMacarons < 0 || precoBrigadeiro < 0 || precoCupcakes < 0 || precoCheesecakes < 0) {
+            mensagem = "Insira quantidades e preços positivos!";
+        } else {
+
+            var contador = 0;
+            while (contador < macarons) {
+                mensagem += `<img src="https://static.itdg.com.br/images/640-400/06edb6a571a067e7c6029dbde006d1b5/275301-original.jpg" width="150">${precoMacarons} `;
+                contador++;
+            }
+            total += macarons * precoMacarons;
+            mensagem += `<br>`;
+
+
+            contador = 0;
+            while (contador < brigadeiro) {
+                mensagem += `<img src="https://www.receitasnestle.com.br/sites/default/files/styles/recipe_detail_desktop_new/public/srh_recipes/1a884bcbc5b04d71476d2995d51d0140.webp?itok=rmjzBAur" width="150">${precoBrigadeiro} `;
+                contador++;
+            }
+            total += brigadeiro * precoBrigadeiro;
+            mensagem += `<br>`;
+
+            contador = 0;
+            while (contador < cupcakes) {
+                mensagem += `<img src="https://static.itdg.com.br/images/360-240/c891db984bf8b9d1bc340138ff9b44c1/265200-original.jpg"  width="150">${precoCupcakes} `;
+                contador++;
+            }
+            total += cupcakes * precoCupcakes;
+            mensagem += `<br>`;
+
+            contador = 0;
+            while (contador < cheesecakes) {
+                mensagem += ` <img src="https://guiadacozinha.com.br/wp-content/uploads/2019/10/cheesecake-de-morango-768x619.jpg" width="150">${precoCheesecakes} `;
+                contador++;
+            }
+            total += cheesecakes * precoCheesecakes;
+            mensagem += `<br><br>`;
+
+            mensagem += `Total da venda: R$ ${total.toFixed(2)}`;
+        }
+
+        div_resultado.innerHTML = mensagem;
+    }
+</script>
